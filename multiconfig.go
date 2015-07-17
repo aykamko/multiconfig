@@ -38,12 +38,13 @@ func NewWithPath(path string) *DefaultLoader {
 	loaders = append(loaders, &TagLoader{})
 
 	// Choose what while is passed
-	if strings.HasSuffix(path, "toml") {
+	switch {
+	case strings.HasSuffix(path, "toml"):
 		loaders = append(loaders, &TOMLLoader{Path: path})
-	}
-
-	if strings.HasSuffix(path, "json") {
+	case strings.HasSuffix(path, "json"):
 		loaders = append(loaders, &JSONLoader{Path: path})
+	case strings.HasSuffix(path, "yaml"):
+		loaders = append(loaders, &YAMLLoader{Path: path})
 	}
 
 	e := &EnvironmentLoader{}
